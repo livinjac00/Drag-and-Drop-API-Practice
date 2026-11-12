@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <style>
+        .div1 {
+            min-width: 390px;
+            max-width: fit-content;
+            min-height: 480px;
+            max-height: fit-content;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Drag and Drop API</h1>
+
+    <p>Drag the W3Schools image into the rectangle:</p>
+
+    <div id="div1" class="div1" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)"></div>
+    <div id="div2" class="div1" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)"></div>
+    <div id="div3" class="div1" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)"></div>
+    <br>
+    <img id="img1" src="images.jpg" draggable="true" ondragstart="dragstartHandler(event)" width="380" height="470" />
+    <img id="img2" src="bread.jpg" draggable="true" ondragstart="dragstartHandler(event)" width="380" height="470" />
+    <img id="img3" src="salad.jpg" draggable="true" ondragstart="dragstartHandler(event)" width="380" height="470" />
+
+    <script>
+        const containers = [];
+        containers.push(document.getElementById("div1"));
+        containers.push(document.getElementById("div2"));
+        containers.push(document.getElementById("div3"));
+
+        function dragstartHandler(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dragoverHandler(ev) {
+            ev.preventDefault();
+        }
+
+        function dropHandler(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const child = document.getElementById(data);
+            const container = ev.currentTarget;
+            if (container.childNodes.length == 0) {
+                container.appendChild(child);
+            }
+            else if (container.childNodes.length == 1) {
+                container.appendChild(child);
+                let otherContainer;
+                for (let i = 0; i < containers.length; i++) {
+                    if (containers[i].childNodes.length == 0) {
+                        otherContainer = containers[i];
+                        break;
+                    }
+                }
+                otherContainer.append(container.childNodes[0]);
+            }
+
+        }
+    </script>
+</body>
+
+</html>
